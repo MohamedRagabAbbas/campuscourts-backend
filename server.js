@@ -5,8 +5,10 @@ const connectDB = require('./config/db');
 const errorHandler = require('./middleware/errorHandler');
 const logger = require('./middleware/logger');
 
-// Load environment variables
-dotenv.config();
+// Load environment variables ONLY in development
+if (process.env.NODE_ENV !== 'production') {
+  dotenv.config();
+}
 
 // Connect to database
 connectDB();
@@ -18,13 +20,12 @@ const corsOptions = {
   origin: [
     'http://localhost:3000',
     'http://localhost:5173',
-    'https://campuscourts.vercel.app', // ADD THIS
-    'https://campuscourts-*.vercel.app' // Allow preview deployments
+    'https://campuscourts.vercel.app',
+    'https://campuscourts-*.vercel.app'
   ],
   credentials: true,
 };
 app.use(cors(corsOptions));
-// app.use(cors());
 app.use(express.json());
 app.use(logger);
 
@@ -32,7 +33,6 @@ app.use(logger);
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/bookings', require('./routes/bookings'));
 app.use('/api/users', require('./routes/users'));
-
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
@@ -46,10 +46,3 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
 });
-
-require('dotenv').config();
-
-// NEW (uses process.env directly):
-if (process.env.NODE_ENV !== 'production') {
-  require('dotenv').config();
-}
