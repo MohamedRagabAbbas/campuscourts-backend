@@ -16,17 +16,12 @@ connectDB();
 const app = express();
 
 // Middleware
-const corsOptions = {
-  origin: [
-    'http://localhost:3000',
-    'http://localhost:5173',
-    'https://campuscourts.vercel.app',
-    'https://campuscourts-*.vercel.app', // For preview deployments
-    'https://*.vercel.app' // Allow all your Vercel deployments
-  ],
+app.use(cors({
+  origin: true,  // Allows all origins temporarily
   credentials: true,
-};
-app.use(cors(corsOptions));
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+}));
 app.use(express.json());
 app.use(logger);
 
