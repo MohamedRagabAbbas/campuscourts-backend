@@ -21,7 +21,8 @@ const corsOptions = {
     'http://localhost:3000',
     'http://localhost:5173',
     'https://campuscourts.vercel.app',
-    'https://campuscourts-*.vercel.app'
+    'https://campuscourts-*.vercel.app', // For preview deployments
+    'https://*.vercel.app' // Allow all your Vercel deployments
   ],
   credentials: true,
 };
